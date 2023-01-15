@@ -4,6 +4,7 @@ import { useAppSelector, useAppDispatch } from './app/hooks';
 import { getPrefList, getPrefData } from './population/populationSlice';
 
 import { Header } from './component/Header';
+import { Title } from './component/Title';
 
 import './styles/App.css';
 
@@ -18,6 +19,7 @@ function App() {
   return (
     <>
       <Header />
+      <Title />
     </>
   );
 }
