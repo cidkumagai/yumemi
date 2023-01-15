@@ -24,23 +24,19 @@ type PrefectureData = {
 export const getPrefList = createAsyncThunk('populations/getPrefList', async () => {
   const apiKey = process.env.REACT_APP_APIKEY;
   if (apiKey) {
-    const { data } = await axios.get<ResponsePrefectureList>(
-      'https://opendata.resas-portal.go.jp/api/v1/prefectures',
-      {
-        headers: {
-          'X-API-KEY': apiKey,
+    try {
+      const { data } = await axios.get<ResponsePrefectureList>(
+        'https://opendata.resas-portal.go.jp/api/v1/prefectures',
+        {
+          headers: {
+            'X-API-KEY': apiKey,
+          },
         },
-      },
-    );
-    const prefList: PrefectureData[] = data.result.map((pref) => {
-      return {
-        prefCode: pref.prefCode,
-        prefName: pref.prefName,
-        isChecked: false,
-        prefData: null,
-      };
-    });
-    return prefList;
+      );
+      return data.result;
+    } catch (e) {
+      console.error(e);
+    }
   }
 });
 
@@ -65,7 +61,7 @@ type ResponsePrefectureData = {
 // 都道府県別データの取得
 export const getPrefData = createAsyncThunk('populations/getPrefData', async (id: number) => {
   const apiKey = process.env.REACT_APP_APIKEY;
-  if (typeof apiKey === 'string') {
+  if (apiKey) {
     const { data } = await axios.get<ResponsePrefectureData>(
       `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${id}`,
       {
@@ -81,11 +77,13 @@ export const getPrefData = createAsyncThunk('populations/getPrefData', async (id
 interface PopulationState {
   result?: PrefectureData[];
   period?: number[];
+  isLoad: boolean
 }
 
 const initialState: PopulationState = {
   result: undefined,
   period: undefined,
+  isLoad: true
 };
 
 export const populationSlice = createSlice({
@@ -94,16 +92,33 @@ export const populationSlice = createSlice({
   reducers: {
     updateCheckBox: (
       state: PopulationState,
-      action: PayloadAction<{ id: number; checked: boolean }>,
+      action: PayloadAction<{ prefCode: number; checked: boolean }>,
     ) => {
       if (state.result) {
-        state.result[action.payload.id - 1].isChecked = action.payload.checked;
+        state.result[action.payload.prefCode - 1].isChecked = action.payload.checked;
       }
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getPrefList.pending, (state) => {
+      state.isLoad = true;
+    });
     builder.addCase(getPrefList.fulfilled, (state, action) => {
-      state.result = action.payload;
+      if (action.payload) {
+        const prefList: PrefectureData[] = action.payload.map((pref) => {
+          return {
+            prefCode: pref.prefCode,
+            prefName: pref.prefName,
+            isChecked: false,
+            prefData: null,
+          };
+        });
+        state.result = prefList;
+        state.isLoad = false
+      }
+    });
+    builder.addCase(getPrefData.pending, (state) => {
+      state.isLoad = true;
     });
     builder.addCase(getPrefData.fulfilled, (state, action) => {
       if (state.period === undefined && action.payload) {
