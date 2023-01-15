@@ -77,13 +77,13 @@ export const getPrefData = createAsyncThunk('populations/getPrefData', async (id
 interface PopulationState {
   result?: PrefectureData[];
   period?: number[];
-  isLoad: boolean
+  isLoad: boolean;
 }
 
 const initialState: PopulationState = {
   result: undefined,
   period: undefined,
-  isLoad: true
+  isLoad: true,
 };
 
 export const populationSlice = createSlice({
@@ -114,13 +114,14 @@ export const populationSlice = createSlice({
           };
         });
         state.result = prefList;
-        state.isLoad = false
+        state.isLoad = false;
       }
     });
     builder.addCase(getPrefData.pending, (state) => {
       state.isLoad = true;
     });
     builder.addCase(getPrefData.fulfilled, (state, action) => {
+      state.isLoad = false;
       if (state.period === undefined && action.payload) {
         state.period = action.payload.response.data.map((data) => {
           return data.year;
