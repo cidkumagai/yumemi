@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { Loading } from './Loding';
+
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getPrefData, getPrefList, updateCheckBox } from '../population/populationSlice';
 
@@ -40,11 +42,14 @@ const CheckBox = (props: { prefCode: number; prefName: string; prefData: number[
 };
 
 export const CreateCheckBox = () => {
-  const { result } = useAppSelector((state) => state.populations);
+  const { result, isLoad } = useAppSelector((state) => state.populations);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getPrefList());
   }, [dispatch]);
+  if (isLoad) {
+    return <Loading />;
+  }
   return (
     <>
       <div className={styles.checkbox_wrapper}>
