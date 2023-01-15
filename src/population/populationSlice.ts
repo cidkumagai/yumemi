@@ -4,7 +4,7 @@ import type { RootState } from '../app/store';
 
 export const populationSlice = createSlice({
   name: 'populations',
-  initialState: undefined,
+  initialState: '',
   reducers: {},
   extraReducers: (builder) => {},
 });

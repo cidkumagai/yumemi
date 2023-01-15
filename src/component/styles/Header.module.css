@@ -1,0 +1,10 @@
+.header {
+  width: 100%;
+  background-color: #c4c4c4;
+}
+
+.header_text {
+  font-size: 2rem;
+  text-align: center;
+  font-weight: bold;
+}
