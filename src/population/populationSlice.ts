@@ -62,28 +62,30 @@ type ResponsePrefectureData = {
 export const getPrefData = createAsyncThunk('populations/getPrefData', async (id: number) => {
   const apiKey = process.env.REACT_APP_APIKEY;
   if (apiKey) {
-    const { data } = await axios.get<ResponsePrefectureData>(
-      `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${id}`,
-      {
-        headers: {
-          'X-API-KEY': apiKey,
+    try {
+      const { data } = await axios.get<ResponsePrefectureData>(
+        `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${id}`,
+        {
+          headers: {
+            'X-API-KEY': apiKey,
+          },
         },
-      },
-    );
-    return { id: id, response: data.result.data[0] };
+      );
+      return { id: id, response: data.result.data[0] };
+    } catch (e) {
+      console.error(e);
+    }
   }
 });
 
 interface PopulationState {
   result?: PrefectureData[];
   period?: number[];
-  isLoad: boolean;
 }
 
 const initialState: PopulationState = {
   result: undefined,
   period: undefined,
-  isLoad: true,
 };
 
 export const populationSlice = createSlice({
@@ -100,9 +102,6 @@ export const populationSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getPrefList.pending, (state) => {
-      state.isLoad = true;
-    });
     builder.addCase(getPrefList.fulfilled, (state, action) => {
       if (action.payload) {
         const prefList: PrefectureData[] = action.payload.map((pref) => {
@@ -114,14 +113,9 @@ export const populationSlice = createSlice({
           };
         });
         state.result = prefList;
-        state.isLoad = false;
       }
     });
-    builder.addCase(getPrefData.pending, (state) => {
-      state.isLoad = true;
-    });
     builder.addCase(getPrefData.fulfilled, (state, action) => {
-      state.isLoad = false;
       if (state.period === undefined && action.payload) {
         state.period = action.payload.response.data.map((data) => {
           return data.year;
