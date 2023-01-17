@@ -25,7 +25,7 @@ function createOptions(result: PrefectureData[] | undefined, period: number[] | 
       })
       .filter((e) => e !== null);
     const options = {
-      title: { text: '都道府県別総人口推移' },
+      title: { text: '' },
       xAxis: {
         title: {
           text: '年度',

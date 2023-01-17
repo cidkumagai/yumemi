@@ -4,14 +4,17 @@ import { CreateCheckBox } from './component/CreateCheckBox';
 import { CreateChart } from './component/CreateChart';
 
 import './styles/App.css';
+import { CustomContent } from './component/CustomContent';
 
 function App() {
   return (
     <>
       <Header />
       <Title />
-      <CreateCheckBox />
-      <CreateChart />
+      <CustomContent>
+        <CreateCheckBox />
+        <CreateChart />
+      </CustomContent>
     </>
   );
 }
