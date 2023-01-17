@@ -1,1 +1,6 @@
 @import 'reset.css';
+
+body {
+  background-color: white;
+  color: #000000;
+}
