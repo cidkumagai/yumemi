@@ -10,8 +10,8 @@ function App() {
   return (
     <>
       <Header />
-      <Title />
       <CustomContent>
+        <Title />
         <CreateCheckBox />
         <CreateChart />
       </CustomContent>
