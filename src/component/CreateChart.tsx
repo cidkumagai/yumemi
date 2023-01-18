@@ -2,13 +2,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
 import { useAppSelector } from '../app/hooks';
-
-type PrefectureData = {
-  prefCode: number;
-  prefName: string;
-  isChecked: boolean;
-  prefData: number[] | null;
-};
+import { PrefectureData } from '../types/types';
 
 function createOptions(result: PrefectureData[] | undefined, period: number[] | undefined) {
   if (period && result) {
