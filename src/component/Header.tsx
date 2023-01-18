@@ -5,7 +5,7 @@ export const Header = () => {
   return (
     <header>
       <div className={styles.header}>
-        <p className={styles.header_text}>{titleText}</p>
+        <h1 className={styles.header_text}>{titleText}</h1>
       </div>
     </header>
   );
