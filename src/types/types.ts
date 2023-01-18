@@ -1,11 +1,12 @@
 export type ResponsePrefectureList = {
-  message: null;
+  message: null | string;
   result: [
     {
       prefCode: number;
       prefName: string;
     },
   ];
+  statusCode?: string;
 };
 
 export type PrefectureData = {
@@ -16,7 +17,7 @@ export type PrefectureData = {
 };
 
 export type ResponsePrefectureData = {
-  message: null;
+  message: null | string;
   result: {
     boundaryYear: number;
     data: [
@@ -31,9 +32,11 @@ export type ResponsePrefectureData = {
       },
     ];
   };
+  statusCode?: string;
 };
 
 export type PopulationState = {
   result?: PrefectureData[];
   period?: number[];
-}
+  error?: string;
+};

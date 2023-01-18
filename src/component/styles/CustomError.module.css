@@ -1,0 +1,19 @@
+.error_wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: #696969;
+}
+
+.error {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.error_japanese {
+  font-size: clamp(0.6rem, 1.75vw, 3rem);
+}
+
+.error_english {
+  font-size: clamp(0.6rem, 1.75vw, 3rem);
+  color: red;
+}
