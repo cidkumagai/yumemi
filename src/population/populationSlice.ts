@@ -2,26 +2,29 @@ import axios from 'axios';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import type { RootState } from '../app/store';
-import { PopulationState, PrefectureData, ResponsePrefectureData, ResponsePrefectureList } from '../types/types';
-
+import {
+  PopulationState,
+  PrefectureData,
+  ResponsePrefectureData,
+  ResponsePrefectureList,
+} from '../types/types';
 
 // 都道府県一覧の取得
 export const getPrefList = createAsyncThunk('populations/getPrefList', async () => {
   const apiKey = process.env.REACT_APP_APIKEY;
   if (apiKey) {
-    try {
-      const { data } = await axios.get<ResponsePrefectureList>(
-        'https://opendata.resas-portal.go.jp/api/v1/prefectures',
-        {
-          headers: {
-            'X-API-KEY': apiKey,
-          },
+    const { data } = await axios.get<ResponsePrefectureList>(
+      'https://opendata.resas-portal.go.jp/api/v1/prefectures',
+      {
+        headers: {
+          'X-API-KEY': apiKey,
         },
-      );
-      return data.result;
-    } catch (e) {
-      console.error(e);
+      },
+    );
+    if (data.statusCode) {
+      throw new Error(data.message ? data.message : undefined);
     }
+    return data.result;
   }
 });
 
@@ -29,26 +32,25 @@ export const getPrefList = createAsyncThunk('populations/getPrefList', async () 
 export const getPrefData = createAsyncThunk('populations/getPrefData', async (id: number) => {
   const apiKey = process.env.REACT_APP_APIKEY;
   if (apiKey) {
-    try {
-      const { data } = await axios.get<ResponsePrefectureData>(
-        `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${id}`,
-        {
-          headers: {
-            'X-API-KEY': apiKey,
-          },
+    const { data } = await axios.get<ResponsePrefectureData>(
+      `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${id}`,
+      {
+        headers: {
+          'X-API-KEY': apiKey,
         },
-      );
-      return { id: id, response: data.result.data[0] };
-    } catch (e) {
-      console.error(e);
+      },
+    );
+    if (data.statusCode) {
+      throw new Error(data.message ? data.message : undefined);
     }
+    return { id: id, response: data.result.data[0] };
   }
 });
-
 
 const initialState: PopulationState = {
   result: undefined,
   period: undefined,
+  error: undefined,
 };
 
 export const populationSlice = createSlice({
@@ -78,6 +80,9 @@ export const populationSlice = createSlice({
         state.result = prefList;
       }
     });
+    builder.addCase(getPrefList.rejected, (state, action) => {
+      state.error = action.error.message;
+    });
     builder.addCase(getPrefData.fulfilled, (state, action) => {
       if (state.period === undefined && action.payload) {
         state.period = action.payload.response.data.map((data) => {
@@ -89,6 +94,9 @@ export const populationSlice = createSlice({
           return data.value;
         });
       }
+    });
+    builder.addCase(getPrefData.rejected, (state, action) => {
+      state.error = action.error.message;
     });
   },
 });
