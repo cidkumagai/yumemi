@@ -2,23 +2,8 @@ import axios from 'axios';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import type { RootState } from '../app/store';
+import { PopulationState, PrefectureData, ResponsePrefectureData, ResponsePrefectureList } from '../types/types';
 
-type ResponsePrefectureList = {
-  message: null;
-  result: [
-    {
-      prefCode: number;
-      prefName: string;
-    },
-  ];
-};
-
-type PrefectureData = {
-  prefCode: number;
-  prefName: string;
-  isChecked: boolean;
-  prefData: number[] | null;
-};
 
 // 都道府県一覧の取得
 export const getPrefList = createAsyncThunk('populations/getPrefList', async () => {
@@ -40,24 +25,6 @@ export const getPrefList = createAsyncThunk('populations/getPrefList', async () 
   }
 });
 
-type ResponsePrefectureData = {
-  message: null;
-  result: {
-    boundaryYear: number;
-    data: [
-      {
-        label: string;
-        data: [
-          {
-            year: number;
-            value: number;
-          },
-        ];
-      },
-    ];
-  };
-};
-
 // 都道府県別データの取得
 export const getPrefData = createAsyncThunk('populations/getPrefData', async (id: number) => {
   const apiKey = process.env.REACT_APP_APIKEY;
@@ -78,10 +45,6 @@ export const getPrefData = createAsyncThunk('populations/getPrefData', async (id
   }
 });
 
-interface PopulationState {
-  result?: PrefectureData[];
-  period?: number[];
-}
 
 const initialState: PopulationState = {
   result: undefined,
