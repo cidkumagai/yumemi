@@ -12,9 +12,7 @@ const CheckBox = (props: { prefCode: number; prefName: string; prefData: number[
     dispatch(getPrefList());
   }, [dispatch]);
   return (
-    <label
-      className={styles.checkbox_text}
-    >
+    <label className={styles.checkbox_text}>
       <input
         type={'checkbox'}
         className={styles.checkbox_input}
