@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet';
 
-import { useAppSelector } from './app/hooks';
+import { useAppSelector } from './store/hooks';
 
 import { Header } from './component/Header';
 import { Title } from './component/Title';
