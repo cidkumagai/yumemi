@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@types/react-helmet": "^6.1.6",
+    "eslint-config-prettier": "^8.6.0",
     "react-helmet": "^6.1.0"
   }
 }

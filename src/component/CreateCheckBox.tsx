@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getPrefData, getPrefList, updateCheckBox } from '../population/populationSlice';
 
 import styles from './styles/CreateCheckBox.module.css';

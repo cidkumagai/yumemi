@@ -1,7 +1,7 @@
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
-import { useAppSelector } from '../app/hooks';
+import { useAppSelector } from '../store/hooks';
 import { PrefectureData } from '../types/types';
 
 function createOptions(result: PrefectureData[] | undefined, period: number[] | undefined) {
