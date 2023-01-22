@@ -19,7 +19,7 @@ export const getPrefList = createAsyncThunk('populations/getPrefList', async () 
         headers: {
           'X-API-KEY': apiKey,
         },
-      },
+      }
     );
     if (data.statusCode) {
       throw new Error(data.message ? data.message : undefined);
@@ -38,7 +38,7 @@ export const getPrefData = createAsyncThunk('populations/getPrefData', async (id
         headers: {
           'X-API-KEY': apiKey,
         },
-      },
+      }
     );
     if (data.statusCode) {
       throw new Error(data.message ? data.message : undefined);
@@ -59,7 +59,7 @@ export const populationSlice = createSlice({
   reducers: {
     updateCheckBox: (
       state: PopulationState,
-      action: PayloadAction<{ prefCode: number; checked: boolean }>,
+      action: PayloadAction<{ prefCode: number; checked: boolean }>
     ) => {
       if (state.result) {
         state.result[action.payload.prefCode - 1].isChecked = action.payload.checked;
