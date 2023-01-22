@@ -21,7 +21,7 @@ const CheckBox = (props: { prefCode: number; prefName: string; prefData: number[
             updateCheckBox({
               prefCode: prefCode,
               checked: e.target.checked,
-            }),
+            })
           );
           if (prefData === null) {
             dispatch(getPrefData(prefCode));

@@ -4,7 +4,7 @@ export type ResponsePrefectureList = {
     {
       prefCode: number;
       prefName: string;
-    },
+    }
   ];
   statusCode?: string;
 };
@@ -27,9 +27,9 @@ export type ResponsePrefectureData = {
           {
             year: number;
             value: number;
-          },
+          }
         ];
-      },
+      }
     ];
   };
   statusCode?: string;

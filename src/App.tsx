@@ -18,8 +18,8 @@ function App() {
     <>
       <Helmet>
         <title>都道府県別人口推移</title>
-        <meta name='description' content='フロントエンドコーディング試験への挑戦です。' />
-        <meta name='viewport' content='width=device-width,initial-scale=1.0,minimum-scale=1.0' />
+        <meta name="description" content="フロントエンドコーディング試験への挑戦です。" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
       </Helmet>
       <Header />
       <CustomContent>
